@@ -1,0 +1,56 @@
+import remeras.*
+
+describe "test de las remeras" {
+
+	var empresa = new Empresa()
+	var sucursalOnce = new Sucursal()
+	var sucursalsanMartin = new Sucursal()
+	var negro = new Color(nroTalle1 = 32, nroTalle2 = 40, talle = 35)
+	var remeraLisa = new Lisa(color = negro)
+	var bordada = new Bordada()
+	var supercicie = new SublimadoXSuperficie(alto = 10, ancho = 10)
+	var addidas = new Marca(tieneConvenioConLaPublicidad = false, tieneDerechoDeAutor = true, precio = 100)
+	var sublimada = new Sublimada(sublimadoXSuperficie = supercicie, marca = addidas, color = negro)
+	var pedido = new Pedido(cantidadParaQueDescuente = 10, tipoDeRemera = remeraLisa)
+	var pedido1 = new Pedido(cantidadParaQueDescuente = 10, tipoDeRemera = bordada)
+	var pedido2 = new Pedido(cantidadParaQueDescuente = 10, tipoDeRemera = sublimada)
+
+	test "el total facturado de todas las sucursales es: 1200 - descucuento 120 = 1080" {
+		empresa.agregarSucursal(sucursalOnce)
+		sucursalOnce.agregarPedido(pedido)
+		assert.equals(1080, empresa.totalFacturadoDeTodasLasSucursales(15))
+	}
+
+	test "el total facturado por una sucursal es: 1200" {
+		sucursalOnce.agregarPedido(pedido1)
+		bordada.agregarColor(negro)
+		assert.equals(1200, sucursalOnce.totalFacturado(15))
+	}
+
+	test "la sucursal que más facturó es sucursalOnce" {
+		empresa.agregarSucursal(sucursalOnce)
+		empresa.agregarSucursal(sucursalsanMartin)
+		sucursalOnce.agregarPedido(pedido2)
+		sucursalsanMartin.agregarPedido(pedido1)
+		assert.equals(sucursalOnce, empresa.sucursalQueMasFacturo(15))
+	}
+	
+	test "se han realizado de 5 pedidos de color negro "{
+		empresa.agregarSucursal(sucursalOnce)
+		sucursalOnce.agregarPedido(pedido)
+		sucursalOnce.agregarPedido(pedido)
+		sucursalOnce.agregarPedido(pedido)
+		sucursalOnce.agregarPedido(pedido)
+		sucursalOnce.agregarPedido(pedido)	
+		assert.equals(5,sucursalOnce.cantidadPedidosXcolor(negro))
+	}
+	
+	test "el pedido más caro de la empresa es"{
+		empresa.agregarSucursal(sucursalOnce)
+		sucursalOnce.agregarPedido(pedido)
+		sucursalsanMartin.agregarPedido(pedido2)
+		assert.equals(pedido, empresa.pedidoMasCaroDeLaEmpresa(15))
+	}
+
+}
+
