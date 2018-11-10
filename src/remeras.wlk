@@ -47,7 +47,7 @@ class Sucursal{
 		return	pedidos.max({pedido => pedido.costoTotal(cantidadPedidos)})
 	}
 	
-	method sucursalVendioTodosLosTalles(){
+	method sucursalVendioTodosLosTalles(){ // TODO No es lo pedido
 		return pedidos.any({pedido => pedido.seVendioTodosLosTalles()})
 	}
 }
@@ -56,7 +56,7 @@ class Pedido {
 
 	var property cantidadParaQueDescuente
 	var property tipoDeRemera
-	var property seVendioTodosLosTalles = false
+	var property seVendioTodosLosTalles = false // TODO Esto no vale, tenés que calcularlo
 	
 	method costoTotal(cantidadPedidios) {
 		return self.costoXcantidad(cantidadPedidios) - (self.totalDescuento(cantidadPedidios)*self.costoXcantidad(cantidadPedidios))/100
@@ -102,14 +102,14 @@ class Lisa inherits Remera {
 
 class Bordada inherits Remera {
 
-	var colores = []
+		var colores = []
 
 	method agregarColor(unColor) {
 		colores.add(unColor)
 	}
 
 	method costo() {
-		return colores.map({ color => color.costoDelColor() }).sum()
+		return colores.map({ color => color.costoDelColor() }).sum() // TODO No es lo pedido.
 	}
 
 	method descuento() {
